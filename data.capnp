@@ -1,6 +1,9 @@
 @0x934efea7f017fff0;
 
 struct Data {
-  timestamp @0 :Text;
-  freeRam @1 :UInt32;
+  systemId @0 :Text;
+  timestamp @1 :Text;
+  freeRam @2 :UInt32;
+  ppp0RxBytes @3 :UInt32;
+  ppp0TxBytes @4 :UInt32;
 }
