@@ -5,7 +5,7 @@ and various metrics about the system every 60 seconds
 """
 import paho.mqtt.client as paho
 import os
-import datetime
+import time
 import capnp
 from uuid import getnode as get_mac
  
@@ -65,5 +65,7 @@ while True:
     data.ppp0RxBytes = ppp0ByteCount[0]
     data.ppp0TxBytes = ppp0ByteCount[1]
     databytes = bytearray(data.to_bytes())
+
     mqttc.publish("com.sunedison.rsc.freeram", databytes, QOS, False)
+
     time.sleep(60)
