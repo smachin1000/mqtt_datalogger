@@ -24,7 +24,10 @@ def on_message(client, userdata, message):
     #print "message received, raw payload type is %s, length is %d" % (type(message.payload), len(message.payload))
     databytes = bytearray(message.payload)
     data = data_capnp.Data.from_bytes(databytes)
-    print "received message %d bytes : %s %s %d %d %d" % (len(databytes), data.systemId, data.timestamp, data.freeRam, data.ppp0RxBytes, data.ppp0TxBytes)
+    macAddress = data.systemIdHi << 32 | data.systemIdLo
+    formattedMacAddress = ':'.join('%02X' % ((macAddress >> 8*i) & 0xff) for i in reversed(xrange(6)))
+
+    print "received message %d bytes : %s %s %d %d %d" % (len(databytes), formattedMacAddress, data.timestamp, data.freeRam, data.ppp0RxBytes, data.ppp0TxBytes)
 
 # Load Capn Proto data format definition
 data_capnp = capnp.load('data.capnp')

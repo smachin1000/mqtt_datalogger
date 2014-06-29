@@ -42,14 +42,6 @@ def getNetworkByteCount(dev_name):
                 return int(line[1]), int(line[9])
     return 0,0
 
-def getFormattedEth0MacAddress():
-    """
-    Return eth0 MAC address in traditional 00:01:02:03:04:05 format
-    """
-    macAddress = get_mac()
-    formattedMACaddress = ':'.join('%02X' % ((macAddress >> 8*i) & 0xff) for i in reversed(xrange(6)))
-
-    return formattedMACaddress
  
 data_capnp = capnp.load('data.capnp')
 
@@ -65,7 +57,9 @@ mqttc.loop_start()
 
 while True:
     data = data_capnp.Data.new_message()
-    data.systemId = getFormattedEth0MacAddress()
+    macAddress = get_mac()
+    data.systemIdHi = macAddress >> 32 & 0xffff
+    data.systemIdLo = macAddress & 0xffffffff
     data.timestamp = str(datetime.datetime.now())
     data.freeRam = getFreeRam()['free']
     ppp0ByteCount = getNetworkByteCount("ppp0")
