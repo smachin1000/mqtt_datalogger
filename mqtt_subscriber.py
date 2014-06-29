@@ -8,6 +8,7 @@ import paho.mqtt.client as paho
 import os
 import time
 import capnp
+import date
  
 broker = "iot.eclipse.org"
 port = 1883
@@ -27,7 +28,7 @@ def on_message(client, userdata, message):
     macAddress = data.systemIdHi << 32 | data.systemIdLo
     formattedMacAddress = ':'.join('%02X' % ((macAddress >> 8*i) & 0xff) for i in reversed(xrange(6)))
 
-    print "received message %d bytes : %s %s %d %d %d" % (len(databytes), formattedMacAddress, data.timestamp, data.freeRam, data.ppp0RxBytes, data.ppp0TxBytes)
+    print "received message %d bytes : %s %s %d %d %d" % (len(databytes), formattedMacAddress, date.from_timestamp(data.timestamp), data.freeRam, data.ppp0RxBytes, data.ppp0TxBytes)
 
 # Load Capn Proto data format definition
 data_capnp = capnp.load('data.capnp')

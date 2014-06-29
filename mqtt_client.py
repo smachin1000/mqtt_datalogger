@@ -6,7 +6,7 @@ and various metrics about the system every 60 seconds
 import paho.mqtt.client as paho
 import os
 import time
-import datetime
+import time
 import capnp
 from uuid import getnode as get_mac
  
@@ -60,7 +60,7 @@ while True:
     macAddress = get_mac()
     data.systemIdHi = macAddress >> 32 & 0xffff
     data.systemIdLo = macAddress & 0xffffffff
-    data.timestamp = str(datetime.datetime.now())
+    data.timestamp = int(time.time())
     data.freeRam = getFreeRam()['free']
     ppp0ByteCount = getNetworkByteCount("ppp0")
     data.ppp0RxBytes = ppp0ByteCount[0]
