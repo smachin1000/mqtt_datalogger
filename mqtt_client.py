@@ -5,8 +5,7 @@ and various metrics about the system every 60 seconds
 """
 import paho.mqtt.client as paho
 import os
-import time
-import time
+import datetime
 import capnp
 from uuid import getnode as get_mac
  
