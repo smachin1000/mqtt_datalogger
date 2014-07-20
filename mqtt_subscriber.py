@@ -21,6 +21,13 @@ def on_connect(mosq, obj, rc):
     else:
         print "Error code %d connecting to MQTT channel" % rc
 
+def on_disconnect(client, userdata, rc):
+    if rc == 0:
+        print "Disconnected successfully."
+    else:
+        print "Error code %d disconnecting from MQTT channel" % rc
+
+
 def on_message(client, userdata, message):
     #print "message received, raw payload type is %s, length is %d" % (type(message.payload), len(message.payload))
     databytes = bytearray(message.payload)
@@ -38,6 +45,7 @@ client_uniq = "subclient_"+str(mypid)
 mqttc = paho.Client(client_uniq, False)
 
 mqttc.on_connect = on_connect
+mqttc.on_disconnect = on_disconnect
 mqttc.on_message = on_message
  
 #connect to broker
